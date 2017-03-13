@@ -1,0 +1,47 @@
+<html>
+<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<script type="text/javascript" src="jquery-1.11.2.min.js"></script>
+		<script type="text/javascript" src="options.js"></script>
+		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>	
+	<div class="container">
+		<div class="form-horizontal">
+			<h2>Smartsoft Redmine settings</h2>
+			
+			<div class="form-group">
+				<label class="control-label col-xs-4 col-form-label" for="work_hours">Work hours</label>
+				<div class="col-xs-8">
+					<input class="form-control" type="number" id="work_hours">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="control-label col-xs-4 col-form-label" for="reminder_time">Reminder time</label>
+				<div class="col-xs-8">
+					<input class="form-control" type="time" id="reminder_time">
+				</div>
+			</div>
+						 
+			<div class="form-group">
+				<label class="control-label col-xs-4 col-form-label" for="reminder_snooze_minutes">Reminder snooze minutes</label>
+				<div class="col-xs-8">
+					<input class="form-control" type="number" id="reminder_snooze_minutes">
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="control-label col-xs-4 col-form-label" for="enable_reminder">Enable reminder (on this PC)</label>
+				<div class="col-xs-8">
+					<input class="form-control" type="checkbox" id="enable_reminder">
+				</div>
+				
+			</div>
+			
+			<button type="submit" id="btn_save" class="btn btn-primary">Save</button>
+		</div>
+	</div>
+</body>
+</html>

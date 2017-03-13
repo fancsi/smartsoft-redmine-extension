@@ -1,0 +1,24 @@
+{
+  "manifest_version": 2,
+  "name": "smartsoft redmine",
+  "version": "0.5.4",
+  "content_scripts": [
+    {
+      "matches": ["http://redmine.3ss.tv/my/page"],
+      "js": ["jquery-1.11.2.min.js","ssrm.js"]
+    }
+  ],
+  "permissions": [
+    "notifications"
+  ],
+  "background": {
+    "scripts": ["jquery-1.11.2.min.js","background.js"]
+  },
+  "options_page": "options.html",
+  "icons": { 
+	"16": "smartwolf16.png",
+    "48": "smartwolf48.png",
+    "128": "smartwolf128.png" 
+  },
+  "description": "To make it work properly:"
+}
