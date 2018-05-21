@@ -4,6 +4,9 @@ window.addEventListener('load', function() {
         type: 'basic',
         title: 'Redmine reminder',
         message: 'This is a reminder to add your hours.',
+		buttons: [{
+			title: "Skip today"
+		}],
         priority: 1
     };
 
@@ -11,6 +14,15 @@ window.addEventListener('load', function() {
        chrome.tabs.create({'url': "http://redmine.3ss.tv/my/page"});
        chrome.notifications.clear('notify1');
     });
+	
+	chrome.notifications.onButtonClicked.addListener(function(notifId, btnIdx) {
+		if (notifId === 'notify1') {
+			if (btnIdx === 0) {
+				scheduleNext(true);
+				chrome.notifications.clear('notify1');
+			}
+		}
+	});
 
     chrome.runtime.onMessage.addListener(function(request, sender, callback) {
         if (request.type == 'getLocalStorage') {
