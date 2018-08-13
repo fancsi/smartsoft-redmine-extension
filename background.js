@@ -9,10 +9,15 @@ window.addEventListener('load', function() {
 		}],
         priority: 1
     };
+	
+	var openRedmine = function() {
+	    chrome.tabs.create({'url': "http://redmine.3ss.tv/my/page"});
+        chrome.notifications.clear('notify1');
+	}
 
+	// before windows 10 notification
     chrome.notifications.onClicked.addListener(function() {
-       chrome.tabs.create({'url': "http://redmine.3ss.tv/my/page"});
-       chrome.notifications.clear('notify1');
+		openRedmine();
     });
 	
 	chrome.notifications.onButtonClicked.addListener(function(notifId, btnIdx) {
@@ -20,13 +25,15 @@ window.addEventListener('load', function() {
 			if (btnIdx === 0) {
 				scheduleNext(true);
 				chrome.notifications.clear('notify1');
+			} else {
+				openRedmine();
 			}
 		}
 	});
 
     chrome.runtime.onMessage.addListener(function(request, sender, callback) {
         if (request.type == 'getLocalStorage') {
-            callback( {
+            callback({
                 work_hours: localStorage.work_hours
             });
         } else if (request.type == 'scheduleNext') {
@@ -49,7 +56,7 @@ window.addEventListener('load', function() {
                     timeout = setTimeout(function() {
                         checkToday();
                     }, (+localStorage.reminder_snooze_minutes || 30) * 60 * 1000);
-                    console.log(today + ': Scheduled check in: ' + ((+localStorage.reminder_snooze_minutes || 30) * 60 * 1000) + ' ms' );
+                    console.log(new Date() + ': Scheduled check in: ' + ((+localStorage.reminder_snooze_minutes || 30) * 60 * 1000) + ' ms' );
                 });
             } else {
                 scheduleNext(true);
