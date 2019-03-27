@@ -11,7 +11,7 @@ window.addEventListener('load', function() {
     };
 	
 	var openRedmine = function() {
-	    chrome.tabs.create({'url': "http://redmine.3ss.tv/my/page"});
+	    chrome.tabs.create({'url': "https://redmine.3ss.tv/my/page"});
         chrome.notifications.clear('notify1');
 	}
 
@@ -43,7 +43,7 @@ window.addEventListener('load', function() {
 
     var checkToday = function() {
         $.ajax({
-            url: 'http://redmine.3ss.tv/my/page',
+            url: 'https://redmine.3ss.tv/my/page',
         }).done(function(data) {
             var doc = $.parseHTML(data);
             var todayMissing = $('.time-entries .odd td strong:contains("Today")', doc).length == 0;
@@ -89,6 +89,6 @@ window.addEventListener('load', function() {
 		}, checkTime - today);
 		console.log(today + ': Scheduled check in: ' + (checkTime - today) + ' ms' );
 	}
-    
+	
 	scheduleNext();
 });

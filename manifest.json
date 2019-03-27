@@ -4,12 +4,15 @@
   "version": "1.0.0",
   "content_scripts": [
     {
-      "matches": ["http://redmine.3ss.tv/my/page"],
+      "matches": ["https://redmine.3ss.tv/my/page"],
       "js": ["jquery-1.11.2.min.js","ssrm.js"]
     }
   ],
   "permissions": [
-    "notifications"
+    "notifications",
+	"cookies",
+	"http://redmine.3ss.tv/",
+	"https://redmine.3ss.tv/"
   ],
   "background": {
     "scripts": ["jquery-1.11.2.min.js","background.js"]
