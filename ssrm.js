@@ -54,6 +54,7 @@ $(document).ready(function() {
                         monthPersHours += Number($('.hours', entries[i])[0].textContent);
                     }
                 }
+				$('td[align=center]', entries[i]).append('<a href="'+$('.subject a', entries[i])[0].href + '/time_entries/new"><img src="/images/add.png"></a>');
             }
         
         }
