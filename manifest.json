@@ -1,27 +1,30 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "smartsoft redmine",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "content_scripts": [
     {
-      "matches": ["https://redmine.3ss.tv/my/page"],
-      "js": ["jquery-1.11.2.min.js","ssrm.js"]
+      "matches": [ "https://redmine.3ss.tv/my/page" ],
+      "js": [ "jquery-1.11.2.min.js", "ssrm.js" ]
     }
   ],
   "permissions": [
     "notifications",
-	"cookies",
-	"http://redmine.3ss.tv/",
-	"https://redmine.3ss.tv/"
+    "alarms",
+    "storage"
+  ],
+  "host_permissions": [
+    "https://redmine.3ss.tv/"
   ],
   "background": {
-    "scripts": ["jquery-1.11.2.min.js","background.js"]
+    "service_worker": "background.js",
+    "type": "module"
   },
   "options_page": "options.html",
-  "icons": { 
-	"16": "smartwolf16.png",
+  "icons": {
+    "16": "smartwolf16.png",
     "48": "smartwolf48.png",
-    "128": "smartwolf128.png" 
+    "128": "smartwolf128.png"
   },
   "description": "A small extension for making your life easier. It reminds you to add your hours into the redmine."
 }

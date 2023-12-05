@@ -1,8 +1,16 @@
-$(document).ready(function() {
-    chrome.runtime.sendMessage({
-        type: 'getLocalStorage'
-    }, function(value) {
-        var HOURS_PER_DAY = +value.work_hours || 8;
+function getLocalStorage(key, fallback, callback) {
+    chrome.storage.local.get(key).then(val => {
+        if (val[key] !== undefined) {
+            callback(val[key]);
+        } else {
+            callback(fallback);
+        }
+    });
+}
+
+$(document).ready(function () {
+    getLocalStorage("work_hours", 8, work_hours => {
+        var HOURS_PER_DAY = +work_hours || 8;
         
         String.prototype.rpad = function(padString, length) {
             var str = this;
@@ -18,28 +26,25 @@ $(document).ready(function() {
         
         var today = new Date();
         var entries = $('tbody', $('.time-entries')).children();
-        var j = 0;
         
         var workedHours = 0;
         var totalHours = 0;
-        var persHours = 0;
         
         var monthWorkedHours = 0;
         var monthTotalHours = 0;
-        var monthPersHours = 0;
         
         var date;
         for (var i = 0; i < entries.length; ++i) {
             
             if (entries[i].className == "odd") {
-                date = $('td', entries[i])[0].textContent;
-                if (date == 'Today') {
-                    todayMissing = false;
+                var dateString = $('td', entries[i])[0].textContent;
+                var split = dateString.split(".");
+                var date = new Date(split[2], split[1] - 1, split[0]);
+                if (isNaN(date.getTime())) {
                     date = new Date();
-                } else {
-                    date = date.split(".");
-                    date = new Date(date[2],date[1] - 1,date[0]);
+                    todayMissing = false;
                 }
+                
                 workedHours += HOURS_PER_DAY;
                 totalHours += Number($('.hours', entries[i])[0].textContent);
                 if (date.getMonth() == today.getMonth()) {
@@ -48,19 +53,14 @@ $(document).ready(function() {
                 }
             
             } else if (entries[i].className == "time-entry") {
-                if ($('.subject', entries[i])[0].textContent.indexOf('Personal Issue') >= 0) {
-                    persHours += Number($('.hours', entries[i])[0].textContent);
-                    if (date.getMonth() == today.getMonth()) {
-                        monthPersHours += Number($('.hours', entries[i])[0].textContent);
-                    }
-                }
-				$('td[align=center]', entries[i]).append('<a href="'+$('.subject a', entries[i])[0].href + '/time_entries/new"><img src="/images/add.png"></a>');
+                $('td[align=center]', entries[i]).append('<a href="' + $('.subject a', entries[i])[0].href + '/time_entries/new"><img src="/images/add.png"></a>');	
             }
+            
         
         }
         
-        $('.total-hours').append("<p>This month: " + toHours(monthTotalHours) + " / Personal issues: " + toHours(monthPersHours) + " / Surplus: " + toHours(monthTotalHours - (monthWorkedHours + monthPersHours)) + (todayMissing ? "<span style=\"color: red;\"> Missing today! </span>" : "") + "</p>" + 
-        "<p>Total hours displayed: " + toHours(totalHours) + " / Personal issues: " + toHours(persHours) + " / Surplus: " + toHours(totalHours - (workedHours + persHours)) + "</p>"
+        $('.total-hours').append("<p>This month: " + toHours(monthTotalHours) + " / Surplus: " + toHours(monthTotalHours - monthWorkedHours) + (todayMissing ? "<span style=\"color: red;\"> Missing today! </span>" : "") + "</p>" + 
+        "<p>Total hours displayed: " + toHours(totalHours) + " / Surplus: " + toHours(totalHours - workedHours) + "</p>"
         );
     
     }

@@ -1,47 +1,64 @@
 <html>
 <head>
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<script type="text/javascript" src="jquery-1.11.2.min.js"></script>
-		<script type="text/javascript" src="options.js"></script>
-		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script type="text/javascript" src="jquery-1.11.2.min.js"></script>
+	<script type="text/javascript" src="bootstrap.min.js"></script>
+	<script type="text/javascript" src="options.js"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
 </head>
-<body>	
+<body>
+	
+
 	<div class="container">
 		<div class="form-horizontal">
 			<h2>Smartsoft Redmine settings</h2>
-			
+
+			<div class="alert alert-info" role="alert" id="disclaimer">
+				<span>
+					<p>Please note that any changes you make to the settings in this extension are device-specific. This means that the adjustments will only apply to the device you are currently using. If you use this extension on another device, you'll need to customize the settings there separately. Your preferences are not synced across devices. Thank you for understanding!
+						</p>
+				</span>
+			</div>
+
 			<div class="form-group">
 				<label class="control-label col-xs-4 col-form-label" for="work_hours">Work hours</label>
-				<div class="col-xs-8">
+				<div class="col-xs-3">
 					<input class="form-control" type="number" id="work_hours">
 				</div>
 			</div>
 
 			<div class="form-group">
 				<label class="control-label col-xs-4 col-form-label" for="reminder_time">Reminder time</label>
-				<div class="col-xs-8">
+				<div class="col-xs-3">
 					<input class="form-control" type="time" id="reminder_time">
 				</div>
 			</div>
-						 
+
 			<div class="form-group">
-				<label class="control-label col-xs-4 col-form-label" for="reminder_snooze_minutes">Reminder recurrency (in minutes)</label>
-				<div class="col-xs-8">
+				<label class="control-label col-xs-4 col-form-label" for="reminder_snooze_minutes">Reminder frequency (in minutes)</label>
+				<div class="col-xs-3">
 					<input class="form-control" type="number" id="reminder_snooze_minutes">
 				</div>
 			</div>
-			
+
 			<div class="form-group">
-				<label class="control-label col-xs-4 col-form-label" for="enable_reminder">Enable reminder (on this PC)</label>
-				<div class="col-xs-8">
+				<label class="control-label col-xs-4 col-form-label" for="enable_reminder">Enable reminder</label>
+				<div class="col-xs-1">
 					<input class="form-control" type="checkbox" id="enable_reminder">
 				</div>
-				
+
+			</div>
+
+			<button type="submit" id="btn_save" class="btn btn-primary">Save Changes</button>
+
+
+			<br><br>
+			<div class="alert alert-success collapse" role="alert" id="save_success">
+				<span>
+					<p>Successfully saved!</p>
+				</span>
 			</div>
 			
-			<button type="submit" id="btn_save" class="btn btn-primary">Save</button>
-		</div>
 	</div>
 </body>
 </html>
