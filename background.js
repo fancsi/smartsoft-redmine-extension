@@ -53,13 +53,15 @@ function scheduleAfterSnooze() {
 	});
 }	
 
-var checkToday = function () {
+function checkToday() {
 	fetch('https://redmine.3ss.tv/my/page', { credentials: 'include' }).then(res => {
 		if (res.ok) {
 			res.text().then(html => {
 				var date = html.match(/<tbody>\s*<tr\s*class="odd">\s*<td>\s*<strong>([^<]+)<\/strong>/mi);
 				var dateString = date != null ? date[1] || "" : "";
-				var todayMissing = !isNaN(new Date(dateString).getTime());
+				var split = dateString.split(".");
+				var date = new Date(split[2], split[1] - 1, split[0]);
+				var todayMissing = !isNaN(date.getTime());
 				
 				var isWeekend = ((new Date()).getDay() == 6) || ((new Date()).getDay() == 0);
 
