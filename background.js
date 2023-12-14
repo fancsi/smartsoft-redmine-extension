@@ -18,6 +18,10 @@ chrome.notifications.onButtonClicked.addListener(function (notifId, btnIdx) {
 	}
 });
 
+chrome.runtime.onStartup.addListener(function () {
+	scheduleNext();
+})
+
 chrome.runtime.onMessage.addListener(function (message, sender, senderResponse) {
 	if (message.type === "scheduleNext") {
 		scheduleNext();
