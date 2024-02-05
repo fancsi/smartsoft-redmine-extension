@@ -22,6 +22,10 @@ chrome.runtime.onStartup.addListener(function () {
 	scheduleNext();
 })
 
+chrome.runtime.onInstalled.addListener(function () {
+	scheduleNext();
+})
+
 chrome.runtime.onMessage.addListener(function (message, sender, senderResponse) {
 	if (message.type === "scheduleNext") {
 		scheduleNext();
@@ -49,9 +53,10 @@ var opt = {
 function scheduleAfterSnooze() {
 	getLocalStorage('reminder_snooze_minutes', 30, val => {
 		var reminder_snooze_minutes = +val;
-		chrome.alarms.clear('schedule');
-		chrome.alarms.create('schedule', {
-			delayInMinutes: reminder_snooze_minutes
+		chrome.alarms.clear('schedule', function () {
+			chrome.alarms.create('schedule', {
+				delayInMinutes: reminder_snooze_minutes
+			});
 		});
 		console.log(new Date() + ': Scheduled check in: ' + reminder_snooze_minutes * 60 * 1000 + ' ms');
 	});
@@ -70,9 +75,10 @@ function checkToday() {
 				var isWeekend = ((new Date()).getDay() == 6) || ((new Date()).getDay() == 0);
 
 				if (todayMissing && !isWeekend) {
-					chrome.notifications.clear('notify1');
-					chrome.notifications.create('notify1', opt, function (id) {
-						scheduleAfterSnooze();
+					chrome.notifications.clear('notify1', function () {
+						chrome.notifications.create('notify1', opt, function () {
+							scheduleAfterSnooze();
+						});
 					});
 				} else {
 					scheduleNext(true);
@@ -108,21 +114,21 @@ function scheduleNext(tomorrow) {
 			var checkTime = new Date();
 			console.log(reminder_time);
 
-			if (tomorrow) {
-				checkTime.setDate(checkTime.getDate() + 1);
-			}
 
 			checkTime.setHours(+reminder_time.split(':')[0] || 0);
 			checkTime.setMinutes(+reminder_time.split(':')[1] || 0);
 			checkTime.setSeconds(+reminder_time.split(':')[2] || 0);
 
-			chrome.alarms.clear('schedule');
-			chrome.alarms.create('schedule', {
-				when: checkTime.getTime()
+			if (tomorrow) {
+				checkTime.setDate(checkTime.getDate() + 1);
+			}
+
+			chrome.alarms.clear('schedule', function () {
+				chrome.alarms.create('schedule', {
+					when: checkTime.getTime()
+				});
 			});
 			console.log(today + ': Scheduled check in: ' + (checkTime - today) + ' ms');
 		});
 	});
 }
-
-scheduleNext();
