@@ -81,6 +81,7 @@ function checkToday() {
 						});
 					});
 				} else {
+					chrome.notifications.clear('notify1');
 					scheduleNext(true);
 				}
 			});
